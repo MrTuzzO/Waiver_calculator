@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Waiver Calculator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 90%;
+            margin: auto;
+            padding: 10px 12px;
+        }
+
+        .container::after {
+            content: 'Made by TuzzO';
+            font-size: 14px;
+            display: block;
+            position: absolute;
+            left: 2px;
+            bottom: 5px;
+            opacity: 0.3;
+            font-style: italic;
+        }
+
+        h1 {
+            margin: 30px 0;
+        }
+
+        div,
+        p {
+            margin: 10px 0;
+        }
+
+        input {
+            height: 22px;
+        }
+
+        button {
+            padding: 10px 24px;
+            margin-top: 15px;
+            background-color: rgb(52, 184, 52);
+            color: #fff;
+            border: 0px solid #fff;
+            border-radius: 3px;
+            display: block;
+            width: 120px;
+            margin-left: auto;
+            margin-top: 28px;
+        }
+
+        #totalPayment {
+            color: red;
+        }
+
+        #tuiFeeAD {
+            color: green;
+        }
+        .result {
+            padding: 10px 12px;
+            margin-bottom: 25px;
+            border-radius: 15px;
+            border-radius: 15px;
+            background: linear-gradient(225deg, #f0f0f0, #cacaca);
+            box-shadow: -6px 6px 12px #b3b3b3,
+                6px -6px 12px #ffffff;
+
+        }
+        .container .inputFlex {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .container .inputFlex label {
+            width: 60%;
+        }
+        .container .inputFlex input {
+            width: 40%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="result">
+            <p>Tuition Fees Without Waiver: <strong><span id="tuiFee">00</span> TK.</strong></p>
+
+            <p>Tuition Fees With Waiver: <strong><span id="tuiFeeAD">00</span> TK.</strong></p>
+            <p>Amount To Pay: <strong><span id="totalPayment">00</span> TK.</strong></p>
+        </div>
+        <div class="inputFlex">
+            <label for="totalC">Total Credit: </label>
+            <input type="text" name="" id="totalC">
+        </div>
+        <div class="inputFlex">
+            <label for="ratakeC">Retake Credit: </label>
+            <input type="text" name="" id="ratakeC">
+        </div>
+        <div class="inputFlex">
+            <label for="CFee">Credit Fees: </label>
+            <input type="text" name="" id="CFee" value="2800">
+        </div>
+        <div class="inputFlex">
+            <label for="regF">Registration + Library + Club Fee: </label>
+            <input type="text" name="" id="regF" value="7700">
+        </div>
+        <div class="inputFlex">
+            <label for="addWai">Additional Waiver If any (TK): </label>
+            <input type="text" name="" id="addWai" value="0">
+        </div>
+        <div class="inputFlex">
+            <label for="WaiverP">Percentage of waiver: </label>
+            <input type="text" name="" id="WaiverP" value="0">
+        </div>
+        <button onClick="calculate();" type="button">Calculate</button>
+
+    </div>
+    <script>
+        function calculate() {
+            totalCredit = parseFloat(document.getElementById("totalC").value);
+            retakeCredit = parseFloat(document.getElementById("ratakeC").value);
+            additionalWaiver = parseFloat(document.getElementById("addWai").value);
+            creditFee = parseInt(document.getElementById("CFee").value);
+            regFee = parseInt(document.getElementById("regF").value * 1);
+            perOfWaiver = parseInt(document.getElementById("WaiverP").value);
+
+            if (isNaN(totalCredit) || isNaN(creditFee) || isNaN(regFee) || isNaN(perOfWaiver)) {
+                alert("Please input a valid number.");
+                throw "exit";
+            } else {
+                newCourseFee = (totalCredit - retakeCredit) * creditFee;
+                retakeCourseFee = retakeCredit * creditFee;
+                disCount = newCourseFee * (perOfWaiver / 100);
+
+                totalFeeWithoutWaiver = totalCredit * creditFee;
+                totalFeeWithWaiver = newCourseFee - disCount + retakeCourseFee;
+
+                amountToPay = totalFeeWithWaiver + regFee - additionalWaiver;
+
+                document.getElementById("tuiFee").innerHTML = totalFeeWithoutWaiver;
+                document.getElementById("tuiFeeAD").innerHTML = totalFeeWithWaiver;
+                document.getElementById("totalPayment").innerHTML = amountToPay;
+            }
+        }
+    </script>
+</body>
+
+</html>
